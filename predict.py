@@ -82,11 +82,7 @@ class Predictor(cog.Predictor):
                 self.predictor.model.roi_heads.box_predictor[cascade_stages].test_score_thresh = output_score_threshold
 
         outputs = self.predictor(image)
-        v = Visualizer(image[:, :, ::-1], metadata)
-        out = v.draw_instance_predictions(outputs["instances"].to("cpu"))
-        out_path = Path(tempfile.mkdtemp()) / "out.png"
-        cv2.imwrite(str(out_path), out.get_image()[:, :, ::-1])
-        return out_path
+        return outputs["instances"]
 
 
 def get_clip_embeddings(vocabulary, prompt='a '):
